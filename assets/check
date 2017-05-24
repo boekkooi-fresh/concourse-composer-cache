@@ -8,10 +8,10 @@ exec 1>&2 # redirect all output to stderr for logging
 payload=$TMPDIR/git-resource-request
 
 # Load configuration
-payload=$(mktemp ${TMPDIR}/git-resource-request.XXXXXX)
+payload=$(mktemp "${TMPDIR}/git-resource-request.XXXXXX")
 cat > ${payload} <&0
 
 GIT_RESOURCE_CONFIG=$(jq -r '{ source: .source.git }' < ${payload})
-
+echo "${GIT_RESOURCE_CONFIG}"
 # Check the github repo
 /opt/git-resource/check <<< "${GIT_RESOURCE_CONFIG}"
