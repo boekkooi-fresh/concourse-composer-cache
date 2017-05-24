@@ -11,7 +11,7 @@ payload=$TMPDIR/git-resource-request
 payload=$(mktemp "${TMPDIR}/git-resource-request.XXXXXX")
 cat > ${payload} <&0
 
-GIT_RESOURCE_CONFIG=$(jq -r '{ source: .source.git, version: .version }' < ${payload})
+GIT_RESOURCE_CONFIG=$(jq -r '{ source: .source.git }' < ${payload})
 
 # Check the github repo
 /opt/git-resource/check <<< "${GIT_RESOURCE_CONFIG}"

@@ -15,7 +15,7 @@ fi
 payload=$(mktemp ${TMPDIR}/git-resource-request.XXXXXX)
 cat > ${payload} <&0
 
-GIT_RESOURCE_CONFIG=$(jq -r '{ source: .source.git, version: .version }' < ${payload})
+GIT_RESOURCE_CONFIG=$(jq -r '{ source: .source.git }' < ${payload})
 
 # Get the github repo
 git_destination="$(mktemp -d -t git-resource-destination.XXXXXX)"
