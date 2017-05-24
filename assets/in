@@ -19,11 +19,13 @@ GIT_RESOURCE_CONFIG=$(jq -r '{ source: .source.git, version: .version }' < ${pay
 
 # Get the github repo
 git_destination="$(mktemp -d -t git-resource-destination.XXXXXX)"
-/opt/git-resource/in "${git_destination}" <<< "${GIT_RESOURCE_CONFIG}"
+git_result=$(/opt/git-resource/in "${git_destination}" <<< "${GIT_RESOURCE_CONFIG}")
 
 # Run composer install
 cd "${git_destination}"
-composer install --ignore-platform-reqs --no-interaction --optimize-autoloader
+composer_result=$(composer install --ignore-platform-reqs --no-interaction --optimize-autoloader)
 
 # Copy vendor to the destination
 mv vendor "${git_destination}/vendor/"
+
+echo ${git_result}
