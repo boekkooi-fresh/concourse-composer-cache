@@ -14,3 +14,6 @@ mv -f ${git_resource_dir}/scripts/* "${ROOT_DIR}/scripts/"
 rm -rf "${git_resource_dir}"
 
 # Patch in and out
+pushd "${ROOT_DIR}/assets"
+git apply -v "${CURRENT_DIR}/assets.patch"
+popd
