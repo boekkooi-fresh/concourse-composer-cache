@@ -8,12 +8,9 @@ MAINTAINER Warnar Boekkooi <wbo@hellofresh.com>
 RUN git config --global user.email "git@localhost" && \
     git config --global user.name "git"
 
-# Get the git resource assets
-RUN git clone --depth 1 https://github.com/concourse/git-resource.git /tmp/git-resource \
-    && mkdir /opt/ \
-    && mv /tmp/git-resource/assets /opt/git-resource \
-    && /tmp/git-resource/scripts/install_git_lfs.sh \
-    && rm -rf /tmp/git-resource
+# Install git lfs
+ADD scripts/install_git_lfs.sh install_git_lfs.sh
+RUN ./install_git_lfs.sh
 
 # Install jq
 RUN apk add --upgrade --no-cache jq

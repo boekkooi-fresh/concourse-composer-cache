@@ -112,6 +112,8 @@ for branch in $fetch; do
   git branch $branch FETCH_HEAD
 done
 
+composer install --ignore-platform-reqs --no-interaction --optimize-autoloader
+
 if [ "$ref" == "HEAD" ]; then
   return_ref=$(git rev-parse HEAD)
 else
