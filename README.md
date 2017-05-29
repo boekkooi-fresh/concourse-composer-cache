@@ -1,46 +1,41 @@
+# Git with composer Resource
+
+This resource is a extension of the concourse [Git Resource](https://github.com/concourse/git-resource) that runs `composer install`.
+
 # Source Configuration
-
-* `git` Required. The source is the same as the corresponding git resource
-
-[Git Resource Source Configuration](https://github.com/concourse/git-resource/blob/master/README.md#source-configuration)
+See [Git Resource Source Configuration](https://github.com/concourse/git-resource/blob/master/README.md#source-configuration)
 
 ### Example 
 
 Resource configuration:
 
 ```YAML
+resource_types:
+
+- name: git-with-composer
+  type: docker-image
+  source:
+    repository: quay.io/boekkooi_fresh/concourse-composer-cache
+
 resources:
 
-# Normal git resource configuration
 - name: repo
-  type: git
-  source: &repo-source # Create a YAML anchor so we can refer to this in the cache resource
+  type: git-with-composer
+  source:
     uri: https://github.com/hellofresh/concourse-cache-composer.git
     branch: master
-
-# Caching composer dependency resource
-- name: concourse-composer-cache
-  type: composer-cache
-  source:
-    git: *repo-source # Point to the repo anchor
 ```
 
 # Behavior
 
-`check`: Check for cache of a commit.
+`check`: Check for new commits.
 
-`in`: Pulls composer vendor dependencies
+See [Git Resource `check`](https://github.com/concourse/git-resource/blob/master/README.md#check-check-for-new-commits) 
 
-```YAML
-jobs:
+`in`: Clone the repository, at the given ref and install composer dependencies.
 
-  - name: cache
-    plan:
+See [Git Resource `in`](https://github.com/concourse/git-resource/blob/master/README.md#in-clone-the-repository-at-the-given-ref)
 
-      - get: repo
-        trigger: true
+`out`: Push to a repository.
 
-      - get: concourse-composer-cache
-```
-
-`out`: ...
+See [Git Resource `out`](https://github.com/concourse/git-resource/blob/master/README.md#out-push-to-a-repository) 
