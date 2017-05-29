@@ -99,13 +99,22 @@ add_git_metadata_message() {
   ]"
 }
 
+add_composer_metadata() {
+  local message=$(composer info | jq -s -R .)
+
+  jq ". + [
+    {name: \"packages\", value: ${message}}
+  ]"
+}
+
 git_metadata() {
   jq -n "[]" | \
     add_git_metadata_basic | \
     add_git_metadata_committer | \
     add_git_metadata_branch | \
     add_git_metadata_tags | \
-    add_git_metadata_message
+    add_git_metadata_message | \
+    add_composer_metadata
 }
 
 configure_credentials() {
